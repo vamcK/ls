@@ -1,0 +1,22 @@
+<!-- wp:html -->
+<script src="https://uat01-mylendlease.cs75.force.com/tourBookings/lightning/lightning.out.js"></script>
+<script>
+    $Lightning.use("c:guestflowApp",    // name of the Lightning app
+        function() {                  // Callback once framework and app loaded
+            $Lightning.createComponent(
+                "c:guestflow", // top-level component of your app
+                { },                  // attributes to set on the component when created
+                "lightningLocator",   // the DOM location to insert the component
+                function(cmp) {
+                    console.log('Hi from callback');// callback when component is created and active on the page
+                }
+            );
+        }, 'https://uat01-mylendlease.cs75.force.com/tourBookings'  // Community endpoint
+    );
+</script>
+<!-- /wp:html -->
+
+<!-- wp:paragraph -->
+<div id="lightningLocator">
+<p>Something</p>
+</div>
