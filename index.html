@@ -1,0 +1,121 @@
+<html>
+  <head>
+    <style>
+      /* The Modal (background) */
+      .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content/Box */
+        .modal-content {
+          background-color: #fefefe;
+          margin: 5% auto; /* 15% from the top and centered */
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%; /* Could be more or less, depending on screen size */
+        }
+        
+        /* The Close Button */
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+        }
+      
+        .slds-button_brand {
+            background-color:aqua;
+        }
+      </style>
+  </head>
+  <body>
+    <button id="bookbutton">Book a Tour</button>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span id="closex" class="close">&times;</span>
+        <div id="lexcontainer"></div>
+      </div>
+    </div>
+    
+    <script src="https://uat01-mylendlease.cs75.force.com/tourBookings/lightning/lightning.out.js"></script>
+    <script>
+      // Set Salesforce Community URL for TourBookings
+      var sfCommunityURL = "https://uat01-mylendlease.cs75.force.com/tourBookings";
+      // Set the Booking Inbound FLow API Name
+      var sfBookingInboundFlowAPIName = "BookingInBoundFlow";
+      // set input variables to pass to inbound flow
+       var inputVariables = [
+              { name: "inputAssignedProjectCode", type: "String", value: ""},
+              { name: "inputBedrooms", type: "String", value: ""},
+              { name: "inputBudget", type: "String", value: ""},
+			  { name: "inputCampaignId", type: "String", value: "7010w0000001ailAAA"},
+              { name: "inputFloorplan", type: "String", value: ""},
+              { name: "inputFurnished", type: "String", value: ""},
+			  { name: "inputPetFriendly", type: "String", value: ""},
+			  { name: "inputGACLIENTID", type: "String", value: "Client ID"},
+			  { name: "inputGATRACKID", type: "String", value: "Track ID"},
+			  { name: "inputGAUSERID", type: "String", value: "User ID"},
+              { name: "inputPreferredDate", type: "String", value: ""},
+			  { name: "inputProductCAStockID", type: "String", value: "44400001_A-0101"},
+			  { name: "inputProjectCode", type: "String", value: "LRAMSPORT"},
+			  { name: "inputUTMCampaign", type: "String", value: "Campaign UTM"},
+			  { name: "inputUTMContent", type: "String", value: "Content UTM"},
+			  { name: "inputUTMMedium", type: "String", value: "Medium UTM"},
+			  { name: "inputUTMSource", type: "String", value: "Source UTM"},
+          ];
+​
+      // Set the onClick event for the button
+      var modal = document.getElementById("myModal");
+      var btn = document.getElementById("bookbutton");
+      var span = document.getElementById("closex");
+ 
+      // When the user clicks on the button, open the modal
+      btn.onclick = function() {
+        // Standard Lightning Out for Lightning Scheduler
+        $Lightning.use("runtime_appointmentbooking:lightningOutGuest",
+                function() {                  // Callback once framework and app load
+                    $Lightning.createComponent(
+                        "lightning:flow",    // top-level component of your app
+                        { },    // attributes to set on the component when created
+                        "lexcontainer",    // the DOM location to insert the component
+                        function(component) {            // API name of the Flow
+                            component.startFlow(sfBookingInboundFlowAPIName, inputVariables);
+                        }
+                    );
+                },
+                sfCommunityURL  // Community endpoint
+            );
+            modal.style.display = "block";
+      }
+  
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+        modal.style.display = "none";
+        document.getElementById("lexcontainer").innerHTML = '';
+      }
+ 
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
+    </script>
+  </body>
+</html>
